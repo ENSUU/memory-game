@@ -4,6 +4,12 @@
 import { useState } from "react";
 import { useEffect } from "react";
 
+// Importing components
+import Card from './components/Card';
+
+// Stylesheet
+import './styles/App.css';
+
 function App() {
   // An array of objects filled with emoji information. 
   const [emojis, setEmojis] = useState(null); 
@@ -30,11 +36,12 @@ function App() {
       })
   }, [])
 
+  console.log(emojis);
   return (
-    <div>
+    <div className="cardContainer">
       {emojis && 
         emojis.map(emoji => {
-          return <p style={{fontSize: 60}} key={emoji.codePoint}> {emoji.character} </p>
+          return <Card key={emoji.unicodeName} emoji={emoji} /> 
         }
       )}
     </div>
