@@ -11,10 +11,18 @@ body {
     margin: 0;
 }
 
+.mainContainer {
+    display: flex; 
+    margin: 0 auto;
+    justify-content: center;
+    flex-direction: column;
+}
+
 .cardContainer {
     display: grid;
+    max-width: 1300px;
     gap: 1rem;
-    margin: 1rem;
+    margin: 1rem auto;
     grid-template-rows: repeat(2, 1fr);
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     align-items: stretch;
@@ -24,7 +32,6 @@ body {
 .gameInfoContainer {
     display: flex; 
     padding: 1rem;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
@@ -32,11 +39,10 @@ body {
 .userScores {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 1rem;
+    margin-left: 4rem;
 }
 
-.userScores h2 {
+.userScores h3 {
     margin: 0;
 }
 

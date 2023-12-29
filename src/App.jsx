@@ -68,13 +68,13 @@ function App() {
   }
 
   return (
-    <>
+    <div className="mainContainer">
       <Navbar />
       <div className="gameInfoContainer">
-        <h2>Get points by clicking on an emoji, but don't click an emoji more than once.</h2>
+        <h3>Get points by clicking on an emoji, but don't click an emoji more than once.</h3>
         <div className="userScores">
-          <h2 className="userCurScore">Score: 0</h2>
-          <h2 className="userBestScore">Best Score: 0</h2>
+          <h3 className="userCurScore">Score: 0</h3>
+          <h3 className="userBestScore">Best Score: 0</h3>
         </div>
       </div>
       <div className="cardContainer">
@@ -84,7 +84,7 @@ function App() {
           }
         )}
       </div>
-    </>
+    </div>
     
   )
 }
