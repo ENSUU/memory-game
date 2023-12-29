@@ -1,0 +1,5 @@
+nav {
+    display: flex; 
+    justify-content: center;
+    box-shadow: var(--main-box-shadow);
+}

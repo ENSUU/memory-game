@@ -1,9 +1,9 @@
 import '../styles/Card.css';
 
-export default function Card ({ emoji }) {
+export default function Card ({ emoji, onClick}) {
     return (
-        <div className="card">
-            <p className="emoji">{emoji.character}</p>
+        <div className="card" onClick={onClick}>
+            <p className="emoji no-highlight">{emoji.character}</p>
         </div>
     )
 }

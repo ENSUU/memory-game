@@ -1,14 +1,20 @@
 .card {
     text-align: center;
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,.5);
+    box-shadow: var(--main-box-shadow);
     border-radius: 1rem;
-    margin: 1rem;
+    cursor: pointer;
 }
-
 
 .emoji {
     font-size: 5rem;
     display: inline-block;
     margin: 4rem;
+    cursor: pointer;
 }
 
+.no-highlight{
+    user-select: none; 
+    -moz-user-select: none;
+    -webkit-text-select: none; 
+    -webkit-user-select: none; 
+ }
