@@ -34,7 +34,7 @@ function App() {
       .then(data => {
         // Create a copy of data to freely change/manipulate. 
         let fetchedData = [...data];
-        
+
         // Create an empty array. This will be used to store the 12 random emojis. 
         let tempArray = []; 
 
@@ -135,31 +135,32 @@ function App() {
   
 
   return (
-    <div className="mainContainer">
+    <>
       <Navbar />
-      <div className="gameInfoContainer">
-        <h3>Get points by clicking on an emoji, but don't click an emoji more than once.</h3>
-        <div className="userScores">
-          <h3 className="userCurScore">Score: {userScores.currentScore}</h3>
-          <h3 className="userBestScore">Best Score: {userScores.bestScore}</h3>
+      <div className="mainContainer">
+        <div className="gameInfoContainer">
+          <h3 className="gameInstructions">Get points by clicking on an emoji, but don't click an emoji more than once.</h3>
+          <div className="userScores">
+            <h3 className="userCurScore">Score: {userScores.currentScore}</h3>
+            <h3 className="userBestScore">Best Score: {userScores.bestScore}</h3>
+          </div>
         </div>
+        {!gameOver ? (
+          <div className="cardContainer">
+            {emojis && 
+              emojis.map(emoji => {
+                return <Card key={emoji.unicodeName} onClick={handleClick} emoji={emoji} /> 
+              }
+            )}
+          </div>
+        ) : (
+          <>
+            <h1 style={{textAlign:"center"}}>Game Over! You Win!</h1>
+            <button className="playAgainBtn" onClick={restartGame}>Play Again</button>
+          </>
+        )}
       </div>
-      {!gameOver ? (
-        <div className="cardContainer">
-          {emojis && 
-            emojis.map(emoji => {
-              return <Card key={emoji.unicodeName} onClick={handleClick} emoji={emoji} /> 
-            }
-          )}
-        </div>
-      ) : (
-        <>
-          <h1 style={{textAlign:"center"}}>Game Over! You Win!</h1>
-          <button className="playAgainBtn" onClick={restartGame}>Play Again</button>
-        </>
-      )}
-    </div>
-    
+    </>
   )
 }
 

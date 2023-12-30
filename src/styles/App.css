@@ -16,17 +16,16 @@ body {
     margin: 0 auto;
     justify-content: center;
     flex-direction: column;
+    max-width: 1280px;
 }
 
 .cardContainer {
     display: grid;
-    max-width: 1300px;
     gap: 1rem;
-    margin: 1rem auto;
-    grid-template-rows: repeat(2, 1fr);
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     align-items: stretch;
     justify-items: stretch;
+    margin: 1rem;
 }
 
 .gameInfoContainer {
@@ -46,8 +45,27 @@ body {
     margin: 0;
 }
 
-/* @media (max-width: 1911px) {
-    .cardContainer {
-        grid-template-columns: repeat(auto-fill, minmax(300px, 23%));
+/* Media Queries for responsiveness */
+@media (max-width: 934px) {
+    .gameInfoContainer {
+        flex-direction: column;
     }
-} */
+
+    .userScores {
+        flex-direction: row; 
+        gap: 1rem;
+        margin: 0;
+    }
+}
+
+
+@media (max-width: 425px) {
+    .cardContainer {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
+        margin: 1rem;
+    }
+
+    .gameInstructions {
+        text-align: center;
+    }
+} 
