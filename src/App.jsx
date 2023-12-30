@@ -102,12 +102,12 @@ function App() {
     let updatedUserSelections = {...userSelections}; 
     // If the emoji's value is False, means it hasn't been selected by the user yet, so increment score by 1. Also update userSelections. 
     if (userSelections[clickedEmoUni] === false) {
-      setUserScores({...userScores, currentScore: userScores.currentScore + 1, bestScore: userScores.currentScore + 1});  
+      setUserScores({...userScores, currentScore: userScores.currentScore + 1, bestScore: Math.max(userScores.bestScore, userScores.currentScore)});  
       updatedUserSelections[clickedEmoUni] = true;  
     }
     // Otherwise, we reset the user's score and set all the values in userSelection to False again. 
     else {
-      setUserScores({...userScores, currentScore: 0});
+      setUserScores({...userScores, currentScore: 0, bestScore: Math.max(userScores.bestScore, userScores.currentScore)});
       updatedUserSelections = resetSelections(updatedUserSelections);
     }
     setUserSelections(updatedUserSelections);
@@ -130,7 +130,7 @@ function App() {
     setNumOfRounds(numOfRounds + 1); 
   }
 
-  // console.log(userSelections);
+  console.log(userSelections);
   checkWinner(); 
   
 

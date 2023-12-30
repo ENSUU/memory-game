@@ -2,7 +2,6 @@
     text-align: center;
     box-shadow: var(--main-box-shadow);
     border-radius: 1rem;
-    cursor: pointer;
 }
 
 .card:hover {
