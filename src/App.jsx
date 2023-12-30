@@ -12,35 +12,50 @@ import Navbar from './components/Navbar';
 import './styles/App.css';
 
 // Test Data
-import testData from './testdata.js';
+// import testData from './testdata.js';
 
 function App() {
-  // An array of objects filled with emoji information. 
+  // State
   const [emojis, setEmojis] = useState(null); 
+  const [userScores, setUserScores] = useState({
+    currentScore: 0, 
+    bestScore: 0
+  }); 
+  const [userSelections, setUserSelections] = useState({}); 
+  const [gameOver, setGameOver] = useState(false); 
+  const [numOfRounds, setNumOfRounds] = useState(1); 
 
   useEffect(() => {
     // Get the array of all the emojis from emoji-api. 
-    // fetch('https://emoji-api.com/emojis?access_key=87e81ad081a97e2d8380e35de532d2e7a51ba800')
-    //   // Convert response to an object. 
-    //   .then(response => response.json())
-    //   // Manually create an array of 12 random emojis. 
-    //   .then(data => {
-    //     let tempArray = []; 
-    //     for (let i = 0; i < 12; i++) {
-    //       const numberOfEmojis = data.length; 
-    //       // Generate a random index position between 0 and 1859 (inclusive). 
-    //       const randomIndex = Math.floor(Math.random() * (numberOfEmojis)); 
-    //       // Push the emoji located at the random index position to tempArray. 
-    //       tempArray.push(data[randomIndex])
-    //       // // Remove the emoji from data to avoid duplicate emoji selection. 
-    //       data.pop(randomIndex); 
-    //     }
-    //     // Save the random array of emojis to state variable, emojis. 
-    //     setEmojis(tempArray); 
+    fetch(`https://emoji-api.com/emojis?access_key=${import.meta.env.VITE_API_PASS}`)
+      // Convert response to an object. 
+      .then(response => response.json())
+      // Manually create an array of 12 random emojis. 
+      .then(data => {
+        let tempArray = []; 
+        for (let i = 0; i < 12; i++) {
+          const numberOfEmojis = data.length; 
+          // Generate a random index position between 0 and 1859 (inclusive). 
+          const randomIndex = Math.floor(Math.random() * (numberOfEmojis)); 
+          // Push the emoji located at the random index position to tempArray. 
+          tempArray.push(data[randomIndex])
+          // // Remove the emoji from data to avoid duplicate emoji selection. 
+          data.pop(randomIndex); 
+        }
+        // Save the random array of emojis to state variable, emojis. 
+        setEmojis(tempArray); 
+
+        // Create the userSelections object. The key values represent: (the emoji's unicode : whether or not the user has clicked this emoji yet). 
+        let userClicked = {}; 
+        for (const emoji of tempArray) {
+          userClicked[emoji.unicodeName] = false; 
+        }
+        setUserSelections(userClicked);
 
         // Using static emojis (for development).
-        setEmojis(testData);
-  }, [])
+        // setEmojis(testData);
+    })
+  }, [numOfRounds]);
 
   // Function to shuffle the emojis array (utilizes the Fisher-Yates Shuffle). Source: https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
   const shuffle = (arr) => {
@@ -58,7 +73,8 @@ function App() {
     return arr; 
   } 
 
-  function handleClick() {
+  function handleClick(e) {
+    handleScore(e.target.dataset.unicode);  
     // Create a copy of the current emojis list. 
     let emojiCopy = [...emojis]; 
     // Shuffle around the elements in emojiCopy using shuffle function. 
@@ -67,23 +83,74 @@ function App() {
     setEmojis(emojiCopy);
   }
 
+  function resetSelections(userSelections) {
+    let updatedUserSelections = {...userSelections}; 
+    for (const k of Object.keys(updatedUserSelections)) {
+      updatedUserSelections[k] = false; 
+    }
+    return updatedUserSelections; 
+  }
+
+  function handleScore(clickedEmoUni) {
+    let updatedUserSelections = {...userSelections}; 
+    // If the emoji's value is False, means it hasn't been selected by the user yet, so increment score by 1. Also update userSelections. 
+    if (userSelections[clickedEmoUni] === false) {
+      setUserScores({...userScores, currentScore: userScores.currentScore + 1, bestScore: userScores.currentScore + 1});  
+      updatedUserSelections[clickedEmoUni] = true;  
+    }
+    // Otherwise, we reset the user's score and set all the values in userSelection to False again. 
+    else {
+      setUserScores({...userScores, currentScore: 0});
+      updatedUserSelections = resetSelections(updatedUserSelections);
+    }
+    setUserSelections(updatedUserSelections);
+  }
+
+  function checkWinner() {
+    if(userScores.currentScore === 12) {
+      setGameOver(true); 
+      // Replace userScores.currentScore with '12' to avoid infinite rendering. 
+      setUserScores({...userScores, currentScore: '12'});
+    }
+  }
+
+  function restartGame(e) {
+    e.preventDefault(); 
+    setEmojis(null); 
+    setUserScores({currentScore: 0, bestScore: 0}); 
+    setUserSelections({}); 
+    setGameOver(false);
+    setNumOfRounds(numOfRounds + 1); 
+  }
+
+  console.log(userSelections);
+  checkWinner(); 
+  
+
   return (
     <div className="mainContainer">
       <Navbar />
       <div className="gameInfoContainer">
         <h3>Get points by clicking on an emoji, but don't click an emoji more than once.</h3>
         <div className="userScores">
-          <h3 className="userCurScore">Score: 0</h3>
-          <h3 className="userBestScore">Best Score: 0</h3>
+          <h3 className="userCurScore">Score: {userScores.currentScore}</h3>
+          <h3 className="userBestScore">Best Score: {userScores.bestScore}</h3>
         </div>
       </div>
-      <div className="cardContainer">
-        {emojis && 
-          emojis.map(emoji => {
-            return <Card key={emoji.unicodeName} onClick={handleClick} emoji={emoji} /> 
-          }
-        )}
-      </div>
+      {!gameOver ? (
+        <div className="cardContainer">
+          {emojis && 
+            emojis.map(emoji => {
+              return <Card key={emoji.unicodeName} onClick={handleClick} emoji={emoji} /> 
+            }
+          )}
+        </div>
+      ) : (
+        <>
+          <h1 style={{textAlign:"center"}}>Game Over! You Win!</h1>
+          <button className="playAgainBtn" onClick={restartGame}>Play Again</button>
+        </>
+      )}
     </div>
     
   )
