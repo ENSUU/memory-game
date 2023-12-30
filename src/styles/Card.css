@@ -5,6 +5,10 @@
     cursor: pointer;
 }
 
+.card:hover {
+    border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
 .emoji {
     font-size: 5rem;
     display: inline-block;
