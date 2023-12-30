@@ -4,7 +4,7 @@ export default function Navbar() {
     return (
         <nav>
             <h1>
-                <i>Memory Game!</i>
+                <i>Memory Card Game</i>
             </h1>
         </nav>
     )
