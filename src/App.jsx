@@ -102,7 +102,7 @@ function App() {
     let updatedUserSelections = {...userSelections}; 
     // If the emoji's value is False, means it hasn't been selected by the user yet, so increment score by 1. Also update userSelections. 
     if (userSelections[clickedEmoUni] === false) {
-      setUserScores({...userScores, currentScore: userScores.currentScore + 1, bestScore: Math.max(userScores.bestScore, userScores.currentScore)});  
+      setUserScores({...userScores, currentScore: userScores.currentScore + 1});  
       updatedUserSelections[clickedEmoUni] = true;  
     }
     // Otherwise, we reset the user's score and set all the values in userSelection to False again. 
