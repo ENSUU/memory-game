@@ -107,7 +107,7 @@ function App() {
     }
     // Otherwise, we reset the user's score and set all the values in userSelection to False again. 
     else {
-      setUserScores({...userScores, currentScore: 0, bestScore: Math.max(userScores.bestScore, userScores.currentScore)});
+      setUserScores({...userScores, currentScore: 0});
       updatedUserSelections = resetSelections(updatedUserSelections);
     }
     setUserSelections(updatedUserSelections);
@@ -130,7 +130,7 @@ function App() {
     setNumOfRounds(numOfRounds + 1); 
   }
 
-  console.log(userSelections);
+  // console.log(userSelections);
   checkWinner(); 
   
 
