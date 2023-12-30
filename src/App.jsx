@@ -32,16 +32,23 @@ function App() {
       .then(response => response.json())
       // Manually create an array of 12 random emojis. 
       .then(data => {
+        // Create a copy of data to freely change/manipulate. 
+        let fetchedData = [...data];
+        
+        // Create an empty array. This will be used to store the 12 random emojis. 
         let tempArray = []; 
+
+        // Add 12 random emojis to tempArray. 
         for (let i = 0; i < 12; i++) {
-          const numberOfEmojis = data.length; 
+          const numberOfEmojis = fetchedData.length; 
           // Generate a random index position between 0 and 1859 (inclusive). 
           const randomIndex = Math.floor(Math.random() * (numberOfEmojis)); 
           // Push the emoji located at the random index position to tempArray. 
-          tempArray.push(data[randomIndex])
-          // // Remove the emoji from data to avoid duplicate emoji selection. 
-          data.pop(randomIndex); 
+          tempArray.push(fetchedData[randomIndex])
+          // Remove the emoji from data to avoid duplicate emoji selection. 
+          fetchedData.splice(randomIndex, randomIndex);
         }
+
         // Save the random array of emojis to state variable, emojis. 
         setEmojis(tempArray); 
 
@@ -123,7 +130,7 @@ function App() {
     setNumOfRounds(numOfRounds + 1); 
   }
 
-  console.log(userSelections);
+  // console.log(userSelections);
   checkWinner(); 
   
 
